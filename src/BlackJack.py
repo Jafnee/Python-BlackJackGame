@@ -47,6 +47,7 @@ def main():
         elif tp >21:
             if 11 in player['cards']:
                 player['cards'][player['cards'].index(11)] = 1
+                print "Changed 11(Ace) to 1"
             else:
                 print "BUST!"
                 return "playerlose"
@@ -63,9 +64,13 @@ def main():
         global player_point
         global computer_point
         can_continue = True
-        initial_draw()
         stay = False
         
+        player['cards'] = []
+        for cards in computer['cards']:
+            del cards
+            
+        initial_draw()
         while can_continue:
             print_hand(player)
             if check_player() == "playerwin":
@@ -85,9 +90,20 @@ def main():
                 stay = True
                 draw_card(computer)
 
-    
+    def play_again():
+        again = (raw_input("Play Again? y/n")).lower()
+        if again == "y":
+            start_game()
+            play_again()
+        elif again == "n":
+            print "Thank you for playing"
+        else:
+            print "invalid input"
+            play_again()
+        
     start_game()
     print "Scores are:\nPlayer: "+str(player_point)+"\nComputer: "+str(computer_point)
+    play_again()
     
         
 if __name__ == "__main__":
