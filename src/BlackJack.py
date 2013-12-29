@@ -67,28 +67,50 @@ def main():
         stay = False
         
         player['cards'] = []
-        for cards in computer['cards']:
-            del cards
+        computer['cards'] = []
             
         initial_draw()
         while can_continue:
             print_hand(player)
             if check_player() == "playerwin":
                 print "you win"
-                player_point = player_point + 1
+                player_point += 1
                 break
             elif check_player() =="playerlose":
                 print "you lose"
-                computer_point = computer_point + 1
+                computer_point += 1
                 break
             print_hand(computer)
             if stay == False:
                 user_input=raw_input ("Hit or Stay (h/s)?").lower()
-            if user_input == "h":
-                draw_card(player)
-            elif user_input =="s":
-                stay = True
-                draw_card(computer)
+                if user_input == "h":
+                    draw_card(player)
+                elif user_input =="s":
+                    stay = True
+                    draw_card(computer)
+                    print_hand(player)
+                    print_hand(computer)
+                    while True:
+                        if get_cardval(computer) > 21:
+                            if 11 in computer['cards']:
+                                computer['cards'][computer['cards'].index(11)] = 1
+                                print "Changed 11(Ace) to 1"
+                            else:
+                                print "BUST!"
+                                print "you win"
+                                player_point += 1
+                                can_continue = False
+                                break
+                        if get_cardval(computer) > get_cardval(player):
+                            print "you lose"
+                            computer_point+=1
+                            can_continue = False
+                            break
+                        elif get_cardval(computer) <= get_cardval(player):
+                            draw_card(computer)
+                            print_hand(player)
+                            print_hand(computer)
+                        
 
     def play_again():
         again = (raw_input("Play Again? y/n")).lower()
