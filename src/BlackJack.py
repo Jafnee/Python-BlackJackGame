@@ -72,16 +72,17 @@ def main():
         return m
     
     def place_bet():
-        wager = raw_input("Place your bet: \n")
-        if wager.isdigit():
-            if compare_money(int(wager)):
-                return int(wager)
+        legal = False
+        while legal == False:
+            wager = raw_input("Place your bet: \n")
+            if wager.isdigit():
+                if compare_money(int(wager)):
+                    legal = True
+                    return int(wager)
+                else:
+                    print "Enter a valid wager."
             else:
                 print "Enter a valid wager."
-                place_bet()
-        else:
-            print "Enter a valid wager."
-            place_bet()
         
     
     def print_money():
